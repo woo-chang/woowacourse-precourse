@@ -34,4 +34,18 @@ class CarTest {
         assertThat(result).isEqualTo(1);
     }
 
+    @DisplayName("자동차 현재 상태를 출력한다.")
+    @Test
+    void showCarState() {
+        //given
+        Car car = new Car("test");
+        car.move();
+
+        //when
+        String result = car.toString();
+
+        //then
+        assertThat(result).contains("test", ":", "-");
+    }
+
 }
