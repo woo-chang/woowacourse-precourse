@@ -1,5 +1,7 @@
 package racingcar.model;
 
+import java.util.StringJoiner;
+
 public class Car {
     private final String name;
     private int position = 0;
@@ -15,5 +17,14 @@ public class Car {
 
     public int getPosition() {
         return position;
+    }
+
+    @Override
+    public String toString() {
+        StringJoiner joiner = new StringJoiner(" ");
+        joiner.add(name);
+        joiner.add(":");
+        joiner.add("-".repeat(position));
+        return joiner.toString();
     }
 }
