@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-class CarNameConverterTest {
+class CarNamesConverterTest {
 
     @DisplayName("쉼표로 구분된 이름을 정상적으로 변환한다.")
     @Test
@@ -18,7 +18,7 @@ class CarNameConverterTest {
         String input = "pobi,woni,jun";
 
         //when
-        List<String> result = CarNameConverter.convert(input);
+        List<String> result = CarNamesConverter.convert(input);
 
         //then
         assertThat(result.size()).isEqualTo(3);
@@ -27,10 +27,10 @@ class CarNameConverterTest {
 
     @DisplayName("유효하지 않은 이름이 존재하는 경우 예외가 발생한다.")
     @ParameterizedTest
-    @ValueSource(strings = {"pobi,,jun", "pobi,wonijun"})
+    @ValueSource(strings = {"pobi,,jun", "pobi,wonijun", "  ,   ", " "})
     void convertWithException(String input) {
         //then
-        assertThatThrownBy(() -> CarNameConverter.convert(input)).isInstanceOf(
+        assertThatThrownBy(() -> CarNamesConverter.convert(input)).isInstanceOf(
                 IllegalArgumentException.class);
     }
 

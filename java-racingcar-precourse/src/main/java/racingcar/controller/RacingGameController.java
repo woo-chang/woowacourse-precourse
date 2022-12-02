@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import racingcar.model.Car;
 import racingcar.model.RacingGame;
 import racingcar.util.AttemptConverter;
-import racingcar.util.CarNameConverter;
+import racingcar.util.CarNamesConverter;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -32,7 +32,7 @@ public class RacingGameController {
         while (true) {
             try {
                 String input = inputView.readCarNames();
-                return CarNameConverter.convert(input);
+                return CarNamesConverter.convert(input);
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
             }

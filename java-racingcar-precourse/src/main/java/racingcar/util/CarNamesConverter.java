@@ -4,14 +4,18 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CarNameConverter {
+public class CarNamesConverter {
 
-    private CarNameConverter() {}
+    private static final String ERROR_MESSAGE = "자동차 이름은 공백 제외 1자 이상, 5자 이하만 가능합니다.";
+
+    private CarNamesConverter() {
+    }
 
     public static List<String> convert(String input) {
         String[] split = input.split(",");
         List<String> result = Arrays.stream(split)
-                .filter(CarNameConverter::isValidLength)
+                .map(String::trim)
+                .filter(CarNamesConverter::isValidLength)
                 .collect(Collectors.toList());
         validateResult(split, result);
         return result;
@@ -23,7 +27,7 @@ public class CarNameConverter {
 
     private static void validateResult(String[] input, List<String> result) {
         if (input.length != result.size()) {
-            throw new IllegalArgumentException("자동차 이름은 1자 이상, 5자 이하만 가능합니다.");
+            throw new IllegalArgumentException(ERROR_MESSAGE);
         }
     }
 
