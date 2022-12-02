@@ -2,6 +2,8 @@ package racingcar.util;
 
 public class AttemptConverter {
 
+    private AttemptConverter() {}
+
     public static int convert(String input) {
         try {
             return Integer.parseInt(input);
