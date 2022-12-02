@@ -48,4 +48,18 @@ class CarTest {
         assertThat(result).contains("test", ":", "-");
     }
 
+    @DisplayName("자동차 이름을 확인한다.")
+    @Test
+    void checkCarName() {
+        //given
+        String name = "car";
+        Car car = new Car(name);
+
+        //when
+        String result = car.getName();
+
+        //then
+        assertThat(result).isEqualTo(name);
+    }
+
 }
