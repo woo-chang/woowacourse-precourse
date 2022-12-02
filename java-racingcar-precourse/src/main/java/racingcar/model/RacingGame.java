@@ -33,7 +33,7 @@ public class RacingGame {
     public List<Car> getCars() {
         return new ArrayList<>(cars);
     }
-    
+
     public List<Car> getWinner() {
         int max = findMaxPosition();
         return cars.stream()
