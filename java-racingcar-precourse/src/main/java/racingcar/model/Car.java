@@ -1,4 +1,4 @@
-package racingcar;
+package racingcar.model;
 
 public class Car {
     private final String name;
@@ -9,4 +9,11 @@ public class Car {
     }
 
     // 추가 기능 구현
+    public void move() {
+        position += 1;
+    }
+
+    public int getPosition() {
+        return position;
+    }
 }
