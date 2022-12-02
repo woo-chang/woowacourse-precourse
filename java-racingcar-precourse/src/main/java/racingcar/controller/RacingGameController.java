@@ -25,7 +25,7 @@ public class RacingGameController {
         int attempt = generateAttempt();
         RacingGame racingGame = new RacingGame(cars);
         racing(racingGame, attempt);
-        outputView.printWinner(racingGame.getCars());
+        outputView.printWinner(racingGame.getWinner());
     }
 
     private List<String> generateCarNames() {
