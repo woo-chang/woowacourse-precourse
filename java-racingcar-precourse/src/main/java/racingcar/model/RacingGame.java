@@ -3,6 +3,7 @@ package racingcar.model;
 import camp.nextstep.edu.missionutils.Randoms;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RacingGame {
 
@@ -31,6 +32,20 @@ public class RacingGame {
 
     public List<Car> getCars() {
         return new ArrayList<>(cars);
+    }
+    
+    public List<Car> getWinner() {
+        int max = findMaxPosition();
+        return cars.stream()
+                .filter(car -> car.getPosition() == max)
+                .collect(Collectors.toList());
+    }
+
+    private int findMaxPosition() {
+        return cars.stream()
+                .mapToInt(Car::getPosition)
+                .max()
+                .orElseGet(() -> 0);
     }
 
 }
