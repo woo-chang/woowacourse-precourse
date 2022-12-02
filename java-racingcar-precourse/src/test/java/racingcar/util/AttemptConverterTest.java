@@ -29,4 +29,13 @@ class AttemptConverterTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
+    @DisplayName("시도 횟수가 0보다 작거나 같은 경우 예외가 발생한다.")
+    @ParameterizedTest
+    @ValueSource(strings = {"0", "-1", "-100"})
+    void invalidAttempt(String input) {
+        //then
+        assertThatThrownBy(() -> AttemptConverter.convert(input))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
 }
