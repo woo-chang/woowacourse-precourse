@@ -19,6 +19,10 @@ public class OutputView {
         System.out.printf((WINNER) + "%n", joiner.toString());
     }
 
+    public void printMessage(String message) {
+        System.out.println(message);
+    }
+
     public void printErrorMessage(String message) {
         System.out.printf((ERROR_MESSAGE) + "%n", message);
     }
