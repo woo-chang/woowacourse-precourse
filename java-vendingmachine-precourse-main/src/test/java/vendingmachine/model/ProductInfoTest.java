@@ -1,8 +1,10 @@
 package vendingmachine.model;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -36,5 +38,15 @@ class ProductInfoTest {
 
         assertThatThrownBy(() -> new ProductInfo(price, count))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @DisplayName("업데이트 하고 나면 수량이 1개 줄어든다.")
+    @Test
+    void updateProductInfo() {
+        ProductInfo before = new ProductInfo(1000, 1);
+
+        ProductInfo update = before.updateByPurchase();
+
+        assertThat(update.getCount()).isEqualTo(before.getCount() - 1);
     }
 }

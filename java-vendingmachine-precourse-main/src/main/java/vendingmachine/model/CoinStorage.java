@@ -3,11 +3,11 @@ package vendingmachine.model;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class CoinBox {
+public class CoinStorage {
 
     private final Map<Coin, Integer> stringBox;
 
-    public CoinBox(Map<Coin, Integer> stringBox) {
+    public CoinStorage(Map<Coin, Integer> stringBox) {
         this.stringBox = stringBox;
     }
 

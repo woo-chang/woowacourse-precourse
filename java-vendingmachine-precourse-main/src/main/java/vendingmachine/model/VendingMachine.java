@@ -4,12 +4,12 @@ import java.util.Map;
 
 public class VendingMachine {
 
-    private final CoinBox coinBox;
+    private final CoinStorage coinStorage;
     private final ProductBox productBox;
     private int inputMoney;
 
-    public VendingMachine(CoinBox coinBox, ProductBox productBox, int inputMoney) {
-        this.coinBox = coinBox;
+    public VendingMachine(CoinStorage coinStorage, ProductBox productBox, int inputMoney) {
+        this.coinStorage = coinStorage;
         this.productBox = productBox;
         this.inputMoney = inputMoney;
     }
@@ -24,7 +24,7 @@ public class VendingMachine {
     }
 
     public Map<Coin, Integer> getRemain() {
-        return coinBox.getRemain(inputMoney);
+        return coinStorage.getRemain(inputMoney);
     }
 
     public int getInputMoney() {

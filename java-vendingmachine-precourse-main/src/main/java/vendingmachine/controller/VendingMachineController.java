@@ -3,7 +3,7 @@ package vendingmachine.controller;
 import java.util.List;
 import java.util.Map;
 import vendingmachine.model.Coin;
-import vendingmachine.model.CoinBox;
+import vendingmachine.model.CoinStorage;
 import vendingmachine.model.ProductBox;
 import vendingmachine.model.ProductInfo;
 import vendingmachine.model.VendingMachine;
@@ -20,20 +20,20 @@ public class VendingMachineController {
     private final ProductBoxGenerator productBoxGenerator = new ProductBoxGenerator();
 
     public void run() {
-        CoinBox coinBox = generateCoinBox();
+        CoinStorage coinStorage = generateCoinBox();
         ProductBox productBox = generateProductBox();
         int inputMoney = generateOnInput();
-        VendingMachine vendingMachine = new VendingMachine(coinBox, productBox, inputMoney);
+        VendingMachine vendingMachine = new VendingMachine(coinStorage, productBox, inputMoney);
         outputView.printInputAmount(vendingMachine.getInputMoney());
         useUtilEnd(vendingMachine);
         outputView.printRemainCoins(vendingMachine.getRemain());
     }
 
-    private CoinBox generateCoinBox() {
+    private CoinStorage generateCoinBox() {
         while (true) {
             try {
                 Map<Coin, Integer> coinBox = getCoinBox();
-                return new CoinBox(coinBox);
+                return new CoinStorage(coinBox);
             } catch (IllegalArgumentException e) {
                 OutputView.printErrorMessage(e.getMessage());
             }
