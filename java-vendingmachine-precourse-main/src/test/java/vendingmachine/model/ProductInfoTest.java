@@ -28,8 +28,8 @@ class ProductInfoTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    @DisplayName("수량이 1개보다 작으면 예외가 발생한다.")
-    @ValueSource(ints = {-10, -5, -1, 0})
+    @DisplayName("수량이 0개보다 작으면 예외가 발생한다.")
+    @ValueSource(ints = {-10, -5, -1})
     @ParameterizedTest
     void negativeCount(int count) {
         int price = 1000;
