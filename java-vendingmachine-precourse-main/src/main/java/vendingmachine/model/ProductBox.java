@@ -44,7 +44,8 @@ public class ProductBox {
     private void clearInventory(String name, ProductInfo update) {
         if (update.getCount() == 0) {
             productBox.remove(name);
-        } else {
+        }
+        if (update.getCount() != 0) {
             productBox.put(name, update);
         }
     }
