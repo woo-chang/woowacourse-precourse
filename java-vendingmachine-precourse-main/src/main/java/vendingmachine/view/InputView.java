@@ -24,4 +24,15 @@ public class InputView {
         return Arrays.stream(input.split(";"))
                 .collect(Collectors.toList());
     }
+
+    public int readMoneyOnInput() {
+        while (true) {
+            try {
+                String input = Console.readLine();
+                return NumericConverter.convert(input);
+            } catch (IllegalArgumentException e) {
+                OutputView.printErrorMessage(e.getMessage());
+            }
+        }
+    }
 }
