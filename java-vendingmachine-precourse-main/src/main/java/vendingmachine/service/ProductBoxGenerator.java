@@ -12,12 +12,17 @@ public class ProductBoxGenerator {
         Map<String, ProductInfo> result = new HashMap<>();
         for (String info : infos) {
             validate(info);
-            String[] productInfos = generateInfo(info);
-            validateProductName(productInfos[0]);
-            validateDuplicate(result, productInfos);
+            String[] productInfos = validateInfo(result, info);
             storeProduct(result, productInfos);
         }
         return result;
+    }
+
+    private String[] validateInfo(Map<String, ProductInfo> result, String info) {
+        String[] productInfos = generateInfo(info);
+        validateProductName(productInfos[0]);
+        validateDuplicate(result, productInfos);
+        return productInfos;
     }
 
     private void validate(String info) {
