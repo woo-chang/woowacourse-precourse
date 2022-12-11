@@ -15,6 +15,10 @@ public class OutputView {
                         String.format("%d원 - %d개", coin.getAmount(), coins.get(coin))));
     }
 
+    public void printInputAmount(int money) {
+        System.out.println(String.format("투입 금액: %d원", money));
+    }
+
     public static void printMessage(String message) {
         System.out.println(message);
     }
