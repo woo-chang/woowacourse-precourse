@@ -1,6 +1,9 @@
 package vendingmachine.view;
 
 import camp.nextstep.edu.missionutils.Console;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import vendingmachine.util.NumericConverter;
 
 public class InputView {
@@ -14,5 +17,11 @@ public class InputView {
                 OutputView.printErrorMessage(e.getMessage());
             }
         }
+    }
+
+    public List<String> readProducts() {
+        String input = Console.readLine();
+        return Arrays.stream(input.split(";"))
+                .collect(Collectors.toList());
     }
 }
