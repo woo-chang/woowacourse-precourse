@@ -2,6 +2,8 @@ package vendingmachine.util;
 
 public class NumericConverter {
 
+    private final static String ERROR_MESSAGE = "금액은 숫자여야 합니다.";
+
     private NumericConverter() {
     }
 
@@ -9,7 +11,7 @@ public class NumericConverter {
         try {
             return Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(e);
+            throw new IllegalArgumentException(ERROR_MESSAGE, e);
         }
     }
 }
