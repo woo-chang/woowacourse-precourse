@@ -45,6 +45,6 @@ public class ProductBoxGenerator {
     }
 
     private String[] generateInfo(String info) {
-        return info.substring(1, info.length()-1).split(",");
+        return info.substring(1, info.length() - 1).split(",");
     }
 }
