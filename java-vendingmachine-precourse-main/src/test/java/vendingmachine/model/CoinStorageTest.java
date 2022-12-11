@@ -1,6 +1,5 @@
 package vendingmachine.model;
 
-import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 class CoinStorageTest {
 
-    @DisplayName("반환 가능한 잔돈을 확인한다.")
+    @DisplayName("반환할 수 있는 잔돈을 확인한다.")
     @Test
     void getRemainedCoins() {
         Map<Coin, Integer> coinCount = new HashMap<>(
