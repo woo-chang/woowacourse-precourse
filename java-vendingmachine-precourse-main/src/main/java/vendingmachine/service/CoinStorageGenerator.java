@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import vendingmachine.model.Coin;
 
-public class CoinBoxGenerator {
+public class CoinStorageGenerator {
 
     private static final int DIVIDE_PRICE = 10;
     private static final String ERROR_MESSAGE = "보유 금액은 0보다 크거나 같고, %d원으로 나누어떨어져야 합니다.";

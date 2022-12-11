@@ -7,7 +7,7 @@ import vendingmachine.model.CoinStorage;
 import vendingmachine.model.ProductBox;
 import vendingmachine.model.ProductInfo;
 import vendingmachine.model.VendingMachine;
-import vendingmachine.service.CoinBoxGenerator;
+import vendingmachine.service.CoinStorageGenerator;
 import vendingmachine.service.ProductBoxGenerator;
 import vendingmachine.view.InputView;
 import vendingmachine.view.OutputView;
@@ -16,7 +16,7 @@ public class VendingMachineController {
 
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
-    private final CoinBoxGenerator coinBoxGenerator = new CoinBoxGenerator();
+    private final CoinStorageGenerator coinStorageGenerator = new CoinStorageGenerator();
     private final ProductBoxGenerator productBoxGenerator = new ProductBoxGenerator();
 
     public void run() {
@@ -42,7 +42,7 @@ public class VendingMachineController {
 
     private Map<Coin, Integer> getCoinBox() {
         int money = inputView.readMoneyOnHand();
-        Map<Coin, Integer> coinBox = coinBoxGenerator.generate(money);
+        Map<Coin, Integer> coinBox = coinStorageGenerator.generate(money);
         outputView.printHoldingCoins(coinBox);
         return coinBox;
     }
