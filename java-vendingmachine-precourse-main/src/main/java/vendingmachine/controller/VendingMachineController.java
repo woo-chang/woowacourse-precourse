@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.Map;
 import vendingmachine.model.Coin;
 import vendingmachine.model.CoinStorage;
-import vendingmachine.model.ProductStorage;
 import vendingmachine.model.ProductInfo;
+import vendingmachine.model.ProductStorage;
 import vendingmachine.model.VendingMachine;
 import vendingmachine.service.CoinStorageGenerator;
-import vendingmachine.service.ProductBoxGenerator;
+import vendingmachine.service.ProductStorageGenerator;
 import vendingmachine.view.InputView;
 import vendingmachine.view.OutputView;
 
@@ -17,62 +17,61 @@ public class VendingMachineController {
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
     private final CoinStorageGenerator coinStorageGenerator = new CoinStorageGenerator();
-    private final ProductBoxGenerator productBoxGenerator = new ProductBoxGenerator();
+    private final ProductStorageGenerator productStorageGenerator = new ProductStorageGenerator();
 
     public void run() {
-        CoinStorage coinStorage = generateCoinBox();
-        ProductStorage productStorage = generateProductBox();
-        int inputMoney = generateOnInput();
-        VendingMachine vendingMachine = new VendingMachine(coinStorage, productStorage, inputMoney);
-        outputView.printInputAmount(vendingMachine.getInputMoney());
+        VendingMachine vendingMachine = generateVendingMachine();
+        outputView.printMoneyOfInput(vendingMachine.getMoneyOfInput());
         useUtilEnd(vendingMachine);
-        outputView.printRemainCoins(vendingMachine.getRemain());
+        outputView.printRemainedCoins(vendingMachine.getRemainedCoins());
     }
 
-    private CoinStorage generateCoinBox() {
+    private VendingMachine generateVendingMachine() {
+        CoinStorage coinStorage = generateCoinStorage();
+        ProductStorage productStorage = generateProductStorage();
+        int moneyOfInput = inputView.readMoneyOfInput();
+        return new VendingMachine(coinStorage, productStorage, moneyOfInput);
+    }
+
+    private CoinStorage generateCoinStorage() {
         while (true) {
             try {
-                Map<Coin, Integer> coinBox = getCoinBox();
-                return new CoinStorage(coinBox);
+                Map<Coin, Integer> coinStorage = getCoinStorage();
+                return new CoinStorage(coinStorage);
             } catch (IllegalArgumentException e) {
                 OutputView.printErrorMessage(e.getMessage());
             }
         }
     }
 
-    private Map<Coin, Integer> getCoinBox() {
-        int money = inputView.readMoneyOnHand();
-        Map<Coin, Integer> coinBox = coinStorageGenerator.generate(money);
-        outputView.printHoldingCoins(coinBox);
-        return coinBox;
+    private Map<Coin, Integer> getCoinStorage() {
+        int coin = inputView.readCoinOnHand();
+        Map<Coin, Integer> coinStorage = coinStorageGenerator.generate(coin);
+        outputView.printCoinOnHand(coinStorage);
+        return coinStorage;
     }
 
-    private ProductStorage generateProductBox() {
+    private ProductStorage generateProductStorage() {
         while (true) {
             try {
-                Map<String, ProductInfo> productBox = getProductBox();
-                return new ProductStorage(productBox);
+                Map<String, ProductInfo> productStorage = getProductStorage();
+                return new ProductStorage(productStorage);
             } catch (IllegalArgumentException e) {
                 OutputView.printErrorMessage(e.getMessage());
             }
         }
     }
 
-    private Map<String, ProductInfo> getProductBox() {
+    private Map<String, ProductInfo> getProductStorage() {
         List<String> products = inputView.readProducts();
-        Map<String, ProductInfo> productBox = productBoxGenerator.generate(products);
-        return productBox;
-    }
-
-    private int generateOnInput() {
-        return inputView.readMoneyOnInput();
+        return productStorageGenerator.generate(products);
     }
 
     private void useUtilEnd(VendingMachine vendingMachine) {
         while (vendingMachine.isUsable()) {
             try {
                 useVendingMachine(vendingMachine);
-                outputView.printInputAmount(vendingMachine.getInputMoney());
+                outputView.printMoneyOfInput(vendingMachine.getMoneyOfInput());
             } catch (IllegalArgumentException e) {
                 OutputView.printErrorMessage(e.getMessage());
             }
