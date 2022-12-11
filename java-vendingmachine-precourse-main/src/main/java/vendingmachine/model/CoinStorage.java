@@ -5,26 +5,29 @@ import java.util.Map;
 
 public class CoinStorage {
 
-    private final Map<Coin, Integer> stringBox;
+    private final Map<Coin, Integer> coinStorage;
 
-    public CoinStorage(Map<Coin, Integer> stringBox) {
-        this.stringBox = stringBox;
+    public CoinStorage(Map<Coin, Integer> coinStorage) {
+        this.coinStorage = coinStorage;
     }
 
-    public Map<Coin, Integer> getRemain(int money) {
+    public Map<Coin, Integer> getRemainedCoins(int money) {
         Map<Coin, Integer> result = new LinkedHashMap<>();
         for (Coin coin : Coin.values()) {
-            if (coin.getAmount() < money && stringBox.get(coin) > 0) {
-                money = getRemainMoney(money, result, coin);
+            if (isPossibleReturn(coin, money)) {
+                money = calculateReturn(result, coin, money);
             }
         }
         return result;
     }
 
-    private int getRemainMoney(int money, Map<Coin, Integer> result, Coin coin) {
-        int count = Math.min(stringBox.get(coin), money / coin.getAmount());
+    private boolean isPossibleReturn(Coin coin, int money) {
+        return coin.getAmount() < money && coinStorage.get(coin) > 0;
+    }
+
+    private int calculateReturn(Map<Coin, Integer> result, Coin coin, int money) {
+        int count = Math.min(coinStorage.get(coin), money / coin.getAmount());
         result.put(coin, count);
-        money -= coin.getAmount() * count;
-        return money;
+        return money - (coin.getAmount() * count);
     }
 }
