@@ -19,6 +19,16 @@ public class OutputView {
         System.out.println(String.format("투입 금액: %d원", money));
     }
 
+    public void printRemainCoins(Map<Coin, Integer> coins) {
+        System.out.println("잔돈");
+        for (Coin coin : Coin.values()) {
+            if (coins.containsKey(coin)) {
+                System.out.println(
+                        String.format("%d원 - %d개", coin.getAmount(), coins.get(coin)));
+            }
+        }
+    }
+
     public static void printMessage(String message) {
         System.out.println(message);
     }
