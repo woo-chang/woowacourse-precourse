@@ -12,12 +12,6 @@ public class ProductInfo {
         this.count = count;
     }
 
-    private void validateName(String name) {
-        if (name == null || name.trim().length() == 0) {
-            throw new IllegalArgumentException("상품 이름은 존재해야 합니다.");
-        }
-    }
-
     private void validatePrice(int price) {
         if (price < 100 || price % 10 != 0) {
             throw new IllegalArgumentException(
@@ -26,8 +20,20 @@ public class ProductInfo {
     }
 
     private void validateCount(int count) {
-        if (count <= 0) {
-            throw new IllegalArgumentException(String.format("상품 수량은 최소 1개 존재해야 합니다."));
+        if (count < 0) {
+            throw new IllegalArgumentException(String.format("상품 수량은 최소 0개 존재해야 합니다."));
         }
+    }
+
+    public ProductInfo updateByPurchase() {
+        return new ProductInfo(price, count - 1);
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public int getCount() {
+        return count;
     }
 }
