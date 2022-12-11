@@ -16,7 +16,7 @@ public class CoinBoxGenerator {
 
     public Map<Coin, Integer> generate(int price) {
         validate(price);
-        Map<Coin, Integer> result = new HashMap<>();
+        Map<Coin, Integer> result = initResults();
         List<Integer> cases = initCases();
         while (price != 0) {
             removeImpossibleCase(price, cases);
@@ -25,16 +25,17 @@ public class CoinBoxGenerator {
         return result;
     }
 
-    private int storeCoin(int price, Map<Coin, Integer> result, List<Integer> cases) {
-        Coin coin = getCoin(cases);
-        result.put(coin, result.getOrDefault(coin, 0) + 1);
-        return price - coin.getAmount();
-    }
-
     private void validate(int price) {
         if (price < 0 || price % DIVIDE_PRICE != 0) {
             throw new IllegalArgumentException(String.format(ERROR_MESSAGE, DIVIDE_PRICE));
         }
+    }
+
+    private Map<Coin, Integer> initResults() {
+        Map<Coin, Integer> result = new HashMap<>();
+        Arrays.stream(Coin.values())
+                .forEach(coin -> result.put(coin, 0));
+        return result;
     }
 
     private List<Integer> initCases() {
@@ -51,9 +52,10 @@ public class CoinBoxGenerator {
         }
     }
 
-    private void storeCoinBox(Map<Coin, Integer> result, List<Integer> cases) {
+    private int storeCoin(int price, Map<Coin, Integer> result, List<Integer> cases) {
         Coin coin = getCoin(cases);
         result.put(coin, result.getOrDefault(coin, 0) + 1);
+        return price - coin.getAmount();
     }
 
     private Coin getCoin(List<Integer> cases) {
