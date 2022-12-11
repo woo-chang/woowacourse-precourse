@@ -15,11 +15,16 @@ public class CoinBox {
         Map<Coin, Integer> result = new LinkedHashMap<>();
         for (Coin coin : Coin.values()) {
             if (coin.getAmount() < money && stringBox.get(coin) > 0) {
-                int count = Math.min(stringBox.get(coin), money / coin.getAmount());
-                result.put(coin, count);
-                money -= coin.getAmount() * count;
+                money = getRemainMoney(money, result, coin);
             }
         }
         return result;
+    }
+
+    private int getRemainMoney(int money, Map<Coin, Integer> result, Coin coin) {
+        int count = Math.min(stringBox.get(coin), money / coin.getAmount());
+        result.put(coin, count);
+        money -= coin.getAmount() * count;
+        return money;
     }
 }
