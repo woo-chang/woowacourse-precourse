@@ -12,7 +12,7 @@ import vendingmachine.model.Coin;
 public class CoinBoxGenerator {
 
     private static final int DIVIDE_PRICE = 10;
-    private static final String ERROR_MESSAGE = "보유 금액은 %d원으로 나누어떨어져야 합니다.";
+    private static final String ERROR_MESSAGE = "보유 금액은 0보다 크거나 같고, %d원으로 나누어떨어져야 합니다.";
 
     public Map<Coin, Integer> generate(int price) {
         validate(price);
@@ -20,13 +20,19 @@ public class CoinBoxGenerator {
         List<Integer> cases = initCases();
         while (price != 0) {
             removeImpossibleCase(price, cases);
-            storeCoinBox(result, cases);
+            price = storeCoin(price, result, cases);
         }
         return result;
     }
 
+    private int storeCoin(int price, Map<Coin, Integer> result, List<Integer> cases) {
+        Coin coin = getCoin(cases);
+        result.put(coin, result.getOrDefault(coin, 0) + 1);
+        return price - coin.getAmount();
+    }
+
     private void validate(int price) {
-        if (price % DIVIDE_PRICE != 0) {
+        if (price < 0 || price % DIVIDE_PRICE != 0) {
             throw new IllegalArgumentException(String.format(ERROR_MESSAGE, DIVIDE_PRICE));
         }
     }
