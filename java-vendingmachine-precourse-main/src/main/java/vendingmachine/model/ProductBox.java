@@ -28,16 +28,24 @@ public class ProductBox {
     }
 
     public int buy(String name) {
+        validate(name);
+        ProductInfo productInfo = productBox.get(name);
+        ProductInfo update = productInfo.updateByPurchase();
+        clearInventory(name, update);
+        return update.getPrice();
+    }
+
+    private void validate(String name) {
         if (!productBox.containsKey(name)) {
             throw new IllegalArgumentException("존재하지 않는 상품입니다.");
         }
-        ProductInfo productInfo = productBox.get(name);
-        ProductInfo update = productInfo.updateByPurchase();
+    }
+
+    private void clearInventory(String name, ProductInfo update) {
         if (update.getCount() == 0) {
             productBox.remove(name);
         } else {
             productBox.put(name, update);
         }
-        return update.getPrice();
     }
 }
