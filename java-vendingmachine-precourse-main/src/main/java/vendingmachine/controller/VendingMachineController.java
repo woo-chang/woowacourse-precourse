@@ -32,9 +32,7 @@ public class VendingMachineController {
     private CoinBox generateCoinBox() {
         while (true) {
             try {
-                int money = inputView.readMoneyOnHand();
-                Map<Coin, Integer> coinBox = coinBoxGenerator.generate(money);
-                outputView.printHoldingCoins(coinBox);
+                Map<Coin, Integer> coinBox = getCoinBox();
                 return new CoinBox(coinBox);
             } catch (IllegalArgumentException e) {
                 OutputView.printErrorMessage(e.getMessage());
@@ -42,16 +40,28 @@ public class VendingMachineController {
         }
     }
 
+    private Map<Coin, Integer> getCoinBox() {
+        int money = inputView.readMoneyOnHand();
+        Map<Coin, Integer> coinBox = coinBoxGenerator.generate(money);
+        outputView.printHoldingCoins(coinBox);
+        return coinBox;
+    }
+
     private ProductBox generateProductBox() {
         while (true) {
             try {
-                List<String> products = inputView.readProducts();
-                Map<String, ProductInfo> productBox = productBoxGenerator.generate(products);
+                Map<String, ProductInfo> productBox = getProductBox();
                 return new ProductBox(productBox);
             } catch (IllegalArgumentException e) {
                 OutputView.printErrorMessage(e.getMessage());
             }
         }
+    }
+
+    private Map<String, ProductInfo> getProductBox() {
+        List<String> products = inputView.readProducts();
+        Map<String, ProductInfo> productBox = productBoxGenerator.generate(products);
+        return productBox;
     }
 
     private int generateOnInput() {
@@ -61,12 +71,16 @@ public class VendingMachineController {
     private void useUtilEnd(VendingMachine vendingMachine) {
         while (vendingMachine.isUsable()) {
             try {
-                String name = inputView.readProductName();
-                vendingMachine.use(name);
+                useVendingMachine(vendingMachine);
                 outputView.printInputAmount(vendingMachine.getInputMoney());
             } catch (IllegalArgumentException e) {
                 OutputView.printErrorMessage(e.getMessage());
             }
         }
+    }
+
+    private void useVendingMachine(VendingMachine vendingMachine) {
+        String name = inputView.readProductName();
+        vendingMachine.use(name);
     }
 }
