@@ -35,4 +35,8 @@ public class InputView {
             }
         }
     }
+
+    public String readProductName() {
+        return Console.readLine();
+    }
 }
