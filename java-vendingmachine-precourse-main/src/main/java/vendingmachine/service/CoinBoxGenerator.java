@@ -11,9 +11,8 @@ import vendingmachine.model.Coin;
 
 public class CoinBoxGenerator {
 
-    private static final int START_PRICE = 100;
     private static final int DIVIDE_PRICE = 10;
-    private static final String ERROR_MESSAGE = "상품 가격은 %d원부터 시작하며, %d원으로 나누어떨어져야 합니다.";
+    private static final String ERROR_MESSAGE = "보유 금액은 %d원으로 나누어떨어져야 합니다.";
 
     public Map<Coin, Integer> generate(int price) {
         validate(price);
@@ -27,9 +26,8 @@ public class CoinBoxGenerator {
     }
 
     private void validate(int price) {
-        if (price < START_PRICE || price % DIVIDE_PRICE != 0) {
-            throw new IllegalArgumentException(
-                    String.format(ERROR_MESSAGE, START_PRICE, DIVIDE_PRICE));
+        if (price % DIVIDE_PRICE != 0) {
+            throw new IllegalArgumentException(String.format(ERROR_MESSAGE, DIVIDE_PRICE));
         }
     }
 
@@ -61,6 +59,6 @@ public class CoinBoxGenerator {
         return Arrays.stream(Coin.values())
                 .filter(coin -> coin.getAmount() == amount)
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException());
+                .orElseThrow(() -> new IllegalStateException("존재하지 않는 코인입니다."));
     }
 }
