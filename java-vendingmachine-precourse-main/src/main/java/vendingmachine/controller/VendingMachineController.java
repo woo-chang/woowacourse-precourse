@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import vendingmachine.model.Coin;
 import vendingmachine.model.CoinStorage;
-import vendingmachine.model.ProductBox;
+import vendingmachine.model.ProductStorage;
 import vendingmachine.model.ProductInfo;
 import vendingmachine.model.VendingMachine;
 import vendingmachine.service.CoinStorageGenerator;
@@ -21,9 +21,9 @@ public class VendingMachineController {
 
     public void run() {
         CoinStorage coinStorage = generateCoinBox();
-        ProductBox productBox = generateProductBox();
+        ProductStorage productStorage = generateProductBox();
         int inputMoney = generateOnInput();
-        VendingMachine vendingMachine = new VendingMachine(coinStorage, productBox, inputMoney);
+        VendingMachine vendingMachine = new VendingMachine(coinStorage, productStorage, inputMoney);
         outputView.printInputAmount(vendingMachine.getInputMoney());
         useUtilEnd(vendingMachine);
         outputView.printRemainCoins(vendingMachine.getRemain());
@@ -47,11 +47,11 @@ public class VendingMachineController {
         return coinBox;
     }
 
-    private ProductBox generateProductBox() {
+    private ProductStorage generateProductBox() {
         while (true) {
             try {
                 Map<String, ProductInfo> productBox = getProductBox();
-                return new ProductBox(productBox);
+                return new ProductStorage(productBox);
             } catch (IllegalArgumentException e) {
                 OutputView.printErrorMessage(e.getMessage());
             }

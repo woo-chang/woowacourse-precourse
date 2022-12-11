@@ -10,7 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import vendingmachine.model.ProductInfo;
 
-class ProductBoxGeneratorTest {
+class ProductStorageGeneratorTest {
 
     private final ProductBoxGenerator productBoxGenerator = new ProductBoxGenerator();
 

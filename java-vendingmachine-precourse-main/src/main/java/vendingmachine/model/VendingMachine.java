@@ -5,21 +5,21 @@ import java.util.Map;
 public class VendingMachine {
 
     private final CoinStorage coinStorage;
-    private final ProductBox productBox;
+    private final ProductStorage productStorage;
     private int inputMoney;
 
-    public VendingMachine(CoinStorage coinStorage, ProductBox productBox, int inputMoney) {
+    public VendingMachine(CoinStorage coinStorage, ProductStorage productStorage, int inputMoney) {
         this.coinStorage = coinStorage;
-        this.productBox = productBox;
+        this.productStorage = productStorage;
         this.inputMoney = inputMoney;
     }
 
     public boolean isUsable() {
-        return productBox.canBuy(inputMoney);
+        return productStorage.canBuy(inputMoney);
     }
 
     public void use(String name) {
-        int price = productBox.buy(name);
+        int price = productStorage.buy(name);
         inputMoney -= price;
     }
 
