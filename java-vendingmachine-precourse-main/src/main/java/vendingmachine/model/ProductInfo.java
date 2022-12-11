@@ -2,6 +2,9 @@ package vendingmachine.model;
 
 public class ProductInfo {
 
+    private final static int START = 100;
+    private final static int DIVIDE = 10;
+
     private final int price;
     private final int count;
 
@@ -13,9 +16,9 @@ public class ProductInfo {
     }
 
     private void validatePrice(int price) {
-        if (price < 100 || price % 10 != 0) {
+        if (price < START || price % DIVIDE != 0) {
             throw new IllegalArgumentException(
-                    String.format("상품 가격은 %d원부터 시작하며, %d원으로 나누어떨어져야 합니다.", 100, 10));
+                    String.format("상품 가격은 %d원부터 시작하며, %d원으로 나누어떨어져야 합니다.", START, DIVIDE));
         }
     }
 
