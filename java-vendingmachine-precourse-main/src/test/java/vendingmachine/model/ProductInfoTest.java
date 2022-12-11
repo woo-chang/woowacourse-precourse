@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -20,7 +19,7 @@ class ProductInfoTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    @DisplayName("가격이 10으로 나누어 떨어지지 않으면 예외가 발생한다.")
+    @DisplayName("가격이 10으로 나누어떨어지지 않으면 예외가 발생한다.")
     @ValueSource(ints = {101, 111, 1105})
     @ParameterizedTest
     void notDividedPrice(int price) {
@@ -40,10 +39,12 @@ class ProductInfoTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    @DisplayName("업데이트 하고 나면 수량이 1개 줄어든다.")
-    @Test
-    void updateProductInfo() {
-        ProductInfo before = new ProductInfo(1000, 1);
+    @DisplayName("업데이트하고 나면 수량이 1개 줄어든다.")
+    @ValueSource(ints = {1, 5, 10})
+    @ParameterizedTest
+    void updateProductInfo(int count) {
+        int price = 1000;
+        ProductInfo before = new ProductInfo(price, count);
 
         ProductInfo update = before.updateByPurchase();
 
