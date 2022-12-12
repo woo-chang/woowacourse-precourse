@@ -8,15 +8,15 @@ import vendingmachine.util.NumericConverter;
 
 public class InputView {
 
-    private static final String MONEY_ON_HAND_MESSAGE = "자판기가 보유하고 있는 금액을 입력해 주세요.";
+    private static final String COIN_ON_HAND_MESSAGE = "자판기가 보유하고 있는 금액을 입력해 주세요.";
     private static final String PRODUCTS_MESSAGE = "상품명과 가격, 수량을 입력해 주세요.";
     private static final String MONEY_ON_INPUT_MESSAGE = "투입 금액을 입력해 주세요.";
     private static final String PRODUCT_NAME_MESSAGE = "구매할 상품명을 입력해 주세요.";
 
-    public int readMoneyOnHand() {
+    public int readCoinOnHand() {
         while (true) {
             try {
-                String input = inputMoneyOnHand();
+                String input = inputCoinOnHand();
                 return NumericConverter.convert(input);
             } catch (IllegalArgumentException e) {
                 OutputView.printErrorMessage(e.getMessage());
@@ -24,8 +24,8 @@ public class InputView {
         }
     }
 
-    private String inputMoneyOnHand() {
-        OutputView.printMessage(MONEY_ON_HAND_MESSAGE);
+    private String inputCoinOnHand() {
+        OutputView.printMessage(COIN_ON_HAND_MESSAGE);
         return Console.readLine();
     }
 
@@ -36,7 +36,7 @@ public class InputView {
                 .collect(Collectors.toList());
     }
 
-    public int readMoneyOnInput() {
+    public int readMoneyOfInput() {
         while (true) {
             try {
                 String input = inputMoneyOnInput();
