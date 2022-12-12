@@ -6,28 +6,29 @@ public class VendingMachine {
 
     private final CoinStorage coinStorage;
     private final ProductStorage productStorage;
-    private int inputMoney;
+    private int moneyOfInput;
 
-    public VendingMachine(CoinStorage coinStorage, ProductStorage productStorage, int inputMoney) {
+    public VendingMachine(CoinStorage coinStorage, ProductStorage productStorage,
+            int moneyOfInput) {
         this.coinStorage = coinStorage;
         this.productStorage = productStorage;
-        this.inputMoney = inputMoney;
+        this.moneyOfInput = moneyOfInput;
     }
 
     public boolean isUsable() {
-        return productStorage.canBuy(inputMoney);
+        return productStorage.canBuy(moneyOfInput);
     }
 
     public void use(String name) {
         int price = productStorage.buy(name);
-        inputMoney -= price;
+        moneyOfInput -= price;
     }
 
-    public Map<Coin, Integer> getRemain() {
-        return coinStorage.getRemain(inputMoney);
+    public Map<Coin, Integer> getRemainedCoins() {
+        return coinStorage.getRemainedCoins(moneyOfInput);
     }
 
-    public int getInputMoney() {
-        return inputMoney;
+    public int getMoneyOfInput() {
+        return moneyOfInput;
     }
 }
