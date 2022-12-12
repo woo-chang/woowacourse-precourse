@@ -12,7 +12,7 @@ import vendingmachine.model.ProductInfo;
 
 class ProductStorageGeneratorTest {
 
-    private final ProductBoxGenerator productBoxGenerator = new ProductBoxGenerator();
+    private final ProductStorageGenerator productBoxGenerator = new ProductStorageGenerator();
 
     @DisplayName("상품 정보를 올바르게 저장한다.")
     @Test
@@ -26,7 +26,7 @@ class ProductStorageGeneratorTest {
         assertThat(productBox.values().size()).isEqualTo(2);
     }
 
-    @DisplayName("상품 이름에 공백으로만 이루어진 경우 예외가 발생한다.")
+    @DisplayName("상품 이름에 공백으로만 이루어졌으면 예외가 발생한다.")
     @Test
     void invalidProductName() {
         List<String> infos = new ArrayList<>(
