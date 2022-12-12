@@ -4,24 +4,31 @@ import java.util.Map;
 
 public class ProductStorage {
 
-    private final Map<String, ProductInfo> productBox;
+    private final Map<String, ProductInfo> productStorage;
 
-    public ProductStorage(Map<String, ProductInfo> productBox) {
-        this.productBox = productBox;
+    public ProductStorage(Map<String, ProductInfo> productStorage) {
+        this.productStorage = productStorage;
     }
 
     public boolean canBuy(int money) {
-        if (productBox.isEmpty()) {
+        if (productStorage.isEmpty() || searchMaxCount() == 0) {
             return false;
         }
-        if (money < searchCheapestPrice()) {
+        if (money < searchMinPrice()) {
             return false;
         }
         return true;
     }
 
-    private int searchCheapestPrice() {
-        return productBox.values().stream()
+    private int searchMaxCount() {
+        return productStorage.values().stream()
+                .mapToInt(ProductInfo::getCount)
+                .max()
+                .getAsInt();
+    }
+
+    private int searchMinPrice() {
+        return productStorage.values().stream()
                 .mapToInt(ProductInfo::getPrice)
                 .min()
                 .getAsInt();
@@ -29,24 +36,18 @@ public class ProductStorage {
 
     public int buy(String name) {
         validate(name);
-        ProductInfo productInfo = productBox.get(name);
+        ProductInfo productInfo = productStorage.get(name);
         ProductInfo update = productInfo.updateByPurchase();
-        clearInventory(name, update);
+        productStorage.put(name, update);
         return update.getPrice();
     }
 
     private void validate(String name) {
-        if (!productBox.containsKey(name)) {
+        if (!productStorage.containsKey(name)) {
             throw new IllegalArgumentException("존재하지 않는 상품입니다.");
         }
-    }
-
-    private void clearInventory(String name, ProductInfo update) {
-        if (update.getCount() == 0) {
-            productBox.remove(name);
-        }
-        if (update.getCount() != 0) {
-            productBox.put(name, update);
+        if (productStorage.get(name).getCount() == 0) {
+            throw new IllegalArgumentException("매진된 상품입니다.");
         }
     }
 }
