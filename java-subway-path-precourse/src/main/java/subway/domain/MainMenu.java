@@ -18,7 +18,7 @@ public enum MainMenu {
     }
 
     public static MainMenu from(String value) {
-        Arrays.stream(MainMenu.values())
+        return Arrays.stream(MainMenu.values())
                 .filter(menu -> menu.value.equals(value))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 메인 메뉴입니다."));
