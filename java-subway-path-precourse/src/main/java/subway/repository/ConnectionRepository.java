@@ -12,8 +12,11 @@ public class ConnectionRepository {
     private static final Map<Station, List<Connection>> connectionDB = new HashMap<>();
 
     public static void addConnection(Station station, Connection connection) {
-        List<Connection> connections = connectionDB.putIfAbsent(station, new ArrayList<>());
-        connections.add(connection);
+        connectionDB.computeIfAbsent(station, c -> new ArrayList<>()).add(connection);
+    }
+
+    public static void deleteAll() {
+        connectionDB.clear();
     }
 
 }
