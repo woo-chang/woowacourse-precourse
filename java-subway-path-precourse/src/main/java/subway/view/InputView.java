@@ -12,7 +12,13 @@ public class InputView {
     private static final String START_STATION = "## 출발역을 입력하세요.";
     private static final String ARRIVAL_STATION = "## 도착역을 입력하세요.";
 
-    public MainMenu readMainMenu(Scanner scanner) {
+    private final Scanner scanner;
+
+    public InputView(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
+    public MainMenu readMainMenu() {
         while (true) {
             try {
                 OutputView.printMessage(MENU_MESSAGE);
@@ -23,7 +29,7 @@ public class InputView {
         }
     }
 
-    public SearchMenu readSearchMenu(Scanner scanner) {
+    public SearchMenu readSearchMenu() {
         while (true) {
             try {
                 OutputView.printMessage(MENU_MESSAGE);
@@ -34,7 +40,7 @@ public class InputView {
         }
     }
 
-    public Station readStartStation(Scanner scanner) {
+    public Station readStartStation() {
         while (true) {
             try {
                 OutputView.printMessage(START_STATION);
@@ -45,7 +51,7 @@ public class InputView {
         }
     }
 
-    public Station readArrivalStation(Scanner scanner) {
+    public Station readArrivalStation() {
         while (true) {
             try {
                 OutputView.printMessage(ARRIVAL_STATION);
