@@ -4,18 +4,16 @@ import java.util.Arrays;
 
 public enum MainMenu {
 
-    ROUTE("1"),
-    QUIT("Q");
+    ROUTE("1", "경로 조회"),
+    QUIT("Q", "종료");
 
-    MainMenu(String value) {
+    MainMenu(String value, String name) {
         this.value = value;
+        this.name = name;
     }
 
     private final String value;
-
-    public String getValue() {
-        return value;
-    }
+    private final String name;
 
     public static MainMenu from(String value) {
         return Arrays.stream(MainMenu.values())
@@ -24,4 +22,8 @@ public enum MainMenu {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 메인 메뉴입니다."));
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s. %s", value, name);
+    }
 }
