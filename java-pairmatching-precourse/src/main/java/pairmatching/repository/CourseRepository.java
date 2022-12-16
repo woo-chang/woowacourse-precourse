@@ -15,4 +15,14 @@ public class CourseRepository {
         courses.computeIfAbsent(course, m -> new HashMap<>())
                 .computeIfAbsent(mission, p -> new ArrayList<>()).add(pair);
     }
+
+    public static List<Pair> findByCourseAndMission(Course course, String mission) {
+        if (courses.containsKey(course)) {
+            Map<String, List<Pair>> pairsByMission = courses.get(course);
+            if (pairsByMission.containsKey(mission)) {
+                return pairsByMission.get(mission);
+            }
+        }
+        return new ArrayList<>();
+    }
 }
