@@ -18,5 +18,7 @@ public class MissionRepository {
         return missions.get(level);
     }
 
-
+    public static void deleteAll() {
+        missions.clear();
+    }
 }
