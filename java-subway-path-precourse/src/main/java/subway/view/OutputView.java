@@ -1,13 +1,18 @@
 package subway.view;
 
+import java.util.List;
 import subway.domain.MainMenu;
 import subway.domain.SearchMenu;
+import subway.dto.SearchResult;
 
 public class OutputView {
 
     private static final String ERROR = "[ERROR] %s";
     private static final String MAIN_MENU = "## 메인 화면";
     private static final String SEARCH_MENU = "## 경로 기준";
+    private static final String SEARCH_RESULT = "## 조회 결과";
+    private static final String SEARCH_MESSAGE = "[INFO] %s";
+    private static final String LINE = "---";
 
     public void printMainMenu() {
         System.out.println(MAIN_MENU);
@@ -20,6 +25,23 @@ public class OutputView {
         System.out.println(SEARCH_MENU);
         for (SearchMenu menu : SearchMenu.values()) {
             System.out.println(menu);
+        }
+    }
+
+    public void printSearchResult(SearchResult searchResult) {
+        System.out.println(SEARCH_RESULT);
+        System.out.println(String.format(SEARCH_MESSAGE, LINE));
+        System.out.println(
+                String.format(SEARCH_MESSAGE, "총 거리: " + searchResult.getDistance()) + "km");
+        System.out.println(
+                String.format(SEARCH_MESSAGE, "총 소요 시간: " + searchResult.getTime()) + "분");
+        System.out.println(String.format(SEARCH_MESSAGE, LINE));
+        printStations(searchResult.getStations());
+    }
+
+    private void printStations(List<String> stations) {
+        for (String station : stations) {
+            System.out.println(String.format(SEARCH_MESSAGE, station));
         }
     }
 
