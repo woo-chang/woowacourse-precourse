@@ -11,9 +11,8 @@ public class CourseRepository {
 
     private static final Map<Course, Map<String, List<Pair>>> courses = new HashMap<>();
 
-    public static void addCourses(Course course, String mission, Pair pair) {
-        courses.computeIfAbsent(course, m -> new HashMap<>())
-                .computeIfAbsent(mission, p -> new ArrayList<>()).add(pair);
+    public static void addCourses(Course course, String mission, List<Pair> pairs) {
+        courses.computeIfAbsent(course, m -> new HashMap<>()).put(mission, pairs);
     }
 
     public static List<Pair> findByCourseAndMission(Course course, String mission) {

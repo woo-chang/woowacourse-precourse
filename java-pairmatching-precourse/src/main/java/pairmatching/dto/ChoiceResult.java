@@ -14,4 +14,16 @@ public class ChoiceResult {
         this.level = level;
         this.mission = mission;
     }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public String getMission() {
+        return mission;
+    }
 }
