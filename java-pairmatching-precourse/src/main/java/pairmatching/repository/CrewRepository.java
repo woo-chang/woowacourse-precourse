@@ -17,4 +17,14 @@ public class CrewRepository {
         crews.computeIfAbsent(crew2, l -> new HashMap<>())
                 .computeIfAbsent(level, c -> new ArrayList<>()).add(crew1);
     }
+
+    public static List<Crew> findByCrewAndLevel(Crew crew, Level level) {
+        if (crews.containsKey(crew)) {
+            Map<Level, List<Crew>> crewsByLevel = crews.get(crew);
+            if (crewsByLevel.containsKey(level)) {
+                return crewsByLevel.get(level);
+            }
+        }
+        return new ArrayList<>();
+    }
 }
