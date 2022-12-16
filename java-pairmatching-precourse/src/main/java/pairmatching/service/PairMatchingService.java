@@ -79,4 +79,9 @@ public class PairMatchingService {
     public List<Pair> search(ChoiceResult choice) {
         return CourseRepository.findByCourseAndMission(choice.getCourse(), choice.getMission());
     }
+
+    public void clear() {
+        CourseRepository.clear();
+        CrewRepository.clear();
+    }
 }
