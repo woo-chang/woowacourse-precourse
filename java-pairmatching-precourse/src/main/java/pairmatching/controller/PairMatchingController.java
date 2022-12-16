@@ -30,6 +30,9 @@ public class PairMatchingController {
         if (function == Function.MATCHING) {
             matchingProcess();
         }
+        if (function == Function.SEARCH) {
+            searchProcess();
+        }
         return true;
     }
 
@@ -45,5 +48,13 @@ public class PairMatchingController {
                 service.matching(choice, 1);
             }
         }
+
+        outputView.printMatchingResult(service.search(choice));
+    }
+
+    private void searchProcess() {
+        outputView.printInformation();
+        ChoiceResult choice = inputView.readChoice();
+        outputView.printMatchingResult(service.search(choice));
     }
 }

@@ -67,12 +67,16 @@ public class PairMatchingService {
     }
 
     private void storeCrew(List<String> names, ChoiceResult choice) {
-        for (int i = 0 ; i < names.size() - 1; i++) {
+        for (int i = 0; i < names.size() - 1; i++) {
             for (int j = i + 1; j < names.size(); j++) {
                 Crew crew1 = new Crew(choice.getCourse(), names.get(i));
                 Crew crew2 = new Crew(choice.getCourse(), names.get(j));
                 CrewRepository.addCrew(crew1, crew2, choice.getLevel());
             }
         }
+    }
+
+    public List<Pair> search(ChoiceResult choice) {
+        return CourseRepository.findByCourseAndMission(choice.getCourse(), choice.getMission());
     }
 }
