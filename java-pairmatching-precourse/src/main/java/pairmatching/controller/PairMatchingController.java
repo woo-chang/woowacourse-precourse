@@ -33,6 +33,9 @@ public class PairMatchingController {
         if (function == Function.SEARCH) {
             searchProcess();
         }
+        if (function == Function.CLEAR) {
+            clearProcess();
+        }
         return true;
     }
 
@@ -56,5 +59,10 @@ public class PairMatchingController {
         outputView.printInformation();
         ChoiceResult choice = inputView.readChoice();
         outputView.printMatchingResult(service.search(choice));
+    }
+
+    private void clearProcess() {
+        service.clear();
+        OutputView.printMessage("초기화 되었습니다.");
     }
 }
