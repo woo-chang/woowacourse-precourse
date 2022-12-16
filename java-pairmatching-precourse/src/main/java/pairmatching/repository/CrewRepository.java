@@ -27,4 +27,8 @@ public class CrewRepository {
         }
         return new ArrayList<>();
     }
+
+    public static void clear() {
+        crews.clear();
+    }
 }
