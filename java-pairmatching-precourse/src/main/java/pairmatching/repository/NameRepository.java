@@ -17,4 +17,8 @@ public class NameRepository {
     public static List<String> findByCourse(Course course) {
         return names.get(course);
     }
+
+    public static void clear() {
+        names.clear();
+    }
 }
