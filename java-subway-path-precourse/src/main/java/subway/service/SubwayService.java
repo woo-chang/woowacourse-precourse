@@ -20,7 +20,20 @@ public class SubwayService {
         WeightedMultigraph<String, DefaultWeightedEdge> graph = new WeightedMultigraph(
                 DefaultWeightedEdge.class);
         addVertex(graph);
-        setEdgeWeight(graph);
+        setDistanceEdgeWeight(graph);
+        DijkstraShortestPath dijkstraShortestPath = new DijkstraShortestPath(graph);
+        List<String> shortestPath = dijkstraShortestPath.getPath(startStation.getName(),
+                        arrivalStation.getName())
+                .getVertexList();
+        return generateResult(shortestPath);
+    }
+
+    public SearchResult findShortestTime(Station startStation, Station arrivalStation) {
+        validate(startStation, arrivalStation);
+        WeightedMultigraph<String, DefaultWeightedEdge> graph = new WeightedMultigraph(
+                DefaultWeightedEdge.class);
+        addVertex(graph);
+        setTimeEdgeWeight(graph);
         DijkstraShortestPath dijkstraShortestPath = new DijkstraShortestPath(graph);
         List<String> shortestPath = dijkstraShortestPath.getPath(startStation.getName(),
                         arrivalStation.getName())
@@ -41,24 +54,45 @@ public class SubwayService {
         }
     }
 
-    private void setEdgeWeight(WeightedMultigraph<String, DefaultWeightedEdge> graph) {
+    private void setDistanceEdgeWeight(WeightedMultigraph<String, DefaultWeightedEdge> graph) {
         List<Station> stations = new ArrayList<>(StationRepository.stations());
         Map<Station, List<Connection>> connectionDB = ConnectionRepository.connections();
         while (!stations.isEmpty()) {
             Station station = stations.get(0);
             List<Connection> connections = connectionDB.get(station);
             for (Connection connection : connections) {
-                addEdge(graph, stations, station, connection);
+                addDistanceEdge(graph, stations, station, connection);
             }
             stations.remove(station);
         }
     }
 
-    private static void addEdge(WeightedMultigraph<String, DefaultWeightedEdge> graph,
+    private void addDistanceEdge(WeightedMultigraph<String, DefaultWeightedEdge> graph,
             List<Station> stations, Station station, Connection connection) {
         if (stations.contains(connection.getStation())) {
             graph.setEdgeWeight(graph.addEdge(station.getName(), connection.getStation().getName()),
                     connection.getDistance());
+        }
+    }
+
+    private void setTimeEdgeWeight(WeightedMultigraph<String, DefaultWeightedEdge> graph) {
+        List<Station> stations = new ArrayList<>(StationRepository.stations());
+        Map<Station, List<Connection>> connectionDB = ConnectionRepository.connections();
+        while (!stations.isEmpty()) {
+            Station station = stations.get(0);
+            List<Connection> connections = connectionDB.get(station);
+            for (Connection connection : connections) {
+                addTimeEdge(graph, stations, station, connection);
+            }
+            stations.remove(station);
+        }
+    }
+
+    private void addTimeEdge(WeightedMultigraph<String, DefaultWeightedEdge> graph,
+            List<Station> stations, Station station, Connection connection) {
+        if (stations.contains(connection.getStation())) {
+            graph.setEdgeWeight(graph.addEdge(station.getName(), connection.getStation().getName()),
+                    connection.getTime());
         }
     }
 
