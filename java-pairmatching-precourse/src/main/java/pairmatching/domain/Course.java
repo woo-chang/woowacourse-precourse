@@ -14,6 +14,10 @@ public enum Course {
 
     // 추가 기능 구현
 
+    public String getName() {
+        return name;
+    }
+
     public static Course from(String name) {
         return Arrays.stream(Course.values())
                 .filter(course -> course.name.equals(name))

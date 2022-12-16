@@ -17,6 +17,10 @@ public enum Level {
 
     // 추가 기능 구현
 
+    public String getName() {
+        return name;
+    }
+
     public static Level from(String name) {
         return Arrays.stream(Level.values())
                 .filter(level -> level.name.equals(name))
