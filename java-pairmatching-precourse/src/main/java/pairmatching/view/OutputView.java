@@ -1,8 +1,10 @@
 package pairmatching.view;
 
+import java.util.List;
 import java.util.StringJoiner;
 import pairmatching.domain.Course;
 import pairmatching.domain.Level;
+import pairmatching.domain.Pair;
 import pairmatching.repository.MissionRepository;
 
 public class OutputView {
@@ -12,6 +14,7 @@ public class OutputView {
     private static final String COURSE = "과정: %s";
     private static final String MISSION = "미션:";
     private static final String LEVEL_PER_MISSION = "  - %s: %s";
+    private static final String MATCHING_RESULT = "페어 매칭 결과입니다.";
 
     public void printInformation() {
         System.out.println(LINE);
@@ -36,6 +39,13 @@ public class OutputView {
                     .stream()
                     .forEach(mission -> joiner.add(mission));
             System.out.println(String.format(LEVEL_PER_MISSION, level.getName(), joiner));
+        }
+    }
+
+    public void printMatchingResult(List<Pair> pairs) {
+        System.out.println(MATCHING_RESULT);
+        for (Pair pair : pairs) {
+            System.out.println(pair);
         }
     }
 

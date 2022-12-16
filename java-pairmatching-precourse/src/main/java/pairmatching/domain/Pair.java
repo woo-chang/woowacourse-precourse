@@ -1,7 +1,7 @@
 package pairmatching.domain;
 
 import java.util.List;
-import java.util.Set;
+import java.util.StringJoiner;
 
 public class Pair {
 
@@ -13,5 +13,14 @@ public class Pair {
 
     public List<String> getNames() {
         return names;
+    }
+
+    @Override
+    public String toString() {
+        StringJoiner joiner = new StringJoiner(" : ");
+        for (String name : names) {
+            joiner.add(name);
+        }
+        return joiner.toString();
     }
 }
