@@ -107,6 +107,7 @@ public class SubwayService {
             distance += connection.getDistance();
             time += connection.getTime();
         }
+        paths.add(stations.get(stations.size()-1).getName());
         return new SearchResult(paths, distance, time);
     }
 
