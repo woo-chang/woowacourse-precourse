@@ -25,4 +25,8 @@ public class CourseRepository {
         }
         return new ArrayList<>();
     }
+
+    public static void clear() {
+        courses.clear();
+    }
 }
