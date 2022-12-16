@@ -23,4 +23,9 @@ public enum Function {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 기능입니다."));
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s. %s", value, explain);
+    }
 }
