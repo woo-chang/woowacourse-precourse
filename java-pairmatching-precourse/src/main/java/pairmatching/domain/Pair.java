@@ -17,10 +17,11 @@ public class Pair {
 
     @Override
     public String toString() {
-        StringJoiner joiner = new StringJoiner(" : ");
-        for (String name : names) {
-            joiner.add(name);
-        }
-        return joiner.toString();
+//        StringJoiner joiner = new StringJoiner(" : ");
+//        for (String name : names) {
+//            joiner.add(name);
+//        }
+//        return joiner.toString();
+        return String.join(" : ", names);
     }
 }
