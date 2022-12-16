@@ -1,5 +1,6 @@
 package subway.dto;
 
+import java.util.Collections;
 import java.util.List;
 
 public class SearchResult {
@@ -12,5 +13,17 @@ public class SearchResult {
         this.stations = stations;
         this.distance = distance;
         this.time = time;
+    }
+
+    public List<String> getStations() {
+        return Collections.unmodifiableList(stations);
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public int getTime() {
+        return time;
     }
 }
