@@ -26,8 +26,4 @@ public class MissionRepository {
     public static List<String> findByLevel(Level level) {
         return missions.get(level);
     }
-
-    public static void deleteAll() {
-        missions.clear();
-    }
 }

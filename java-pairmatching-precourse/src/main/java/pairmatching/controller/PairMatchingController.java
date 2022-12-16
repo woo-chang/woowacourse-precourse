@@ -5,7 +5,7 @@ import pairmatching.config.PairMatchingConfig;
 import pairmatching.domain.Function;
 import pairmatching.domain.MatchingStatus;
 import pairmatching.domain.Pair;
-import pairmatching.dto.ChoiceResult;
+import pairmatching.dto.Selection;
 import pairmatching.repository.CourseRepository;
 import pairmatching.service.PairMatchingService;
 import pairmatching.view.InputView;
@@ -15,14 +15,13 @@ public class PairMatchingController {
 
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
-    private final PairMatchingService service = new PairMatchingService();
+    private final PairMatchingService pairMatchingService = new PairMatchingService();
 
     public void process() {
         PairMatchingConfig.configure();
-        Function function;
         do {
-            function = inputView.readFunction();
-        } while (functionProcess(function));
+            outputView.printSelectFunction();
+        } while (functionProcess(inputView.readFunction()));
     }
 
     private boolean functionProcess(Function function) {
@@ -42,47 +41,49 @@ public class PairMatchingController {
     }
 
     private void matchingProcess() {
-        outputView.printInformation();
-        ChoiceResult choice = inputView.readChoice();
-        List<Pair> pairs = CourseRepository.findByCourseAndMission(choice.getCourse(),
-                choice.getMission());
+        Selection selection = getSelection();
+        List<Pair> pairs = CourseRepository.findByCourseAndMission(
+                selection.getCourse(), selection.getMission());
 
-        if (notEmpthCase(choice, pairs)) {
-            return;
-        }
-
-        emptyCase(choice, pairs);
-
-        outputView.printMatchingResult(service.search(choice));
-    }
-
-    private void emptyCase(ChoiceResult choice, List<Pair> pairs) {
         if (pairs.isEmpty()) {
-            service.matching(choice, 1);
+            pairMatchingService.matching(selection, 1);
         }
+        if (!pairs.isEmpty()) {
+            if (rematchingProcess(selection) == MatchingStatus.NO) {
+                return;
+            }
+        }
+
+        outputView.printMatchingResult(pairMatchingService.search(selection));
     }
 
-    private boolean notEmpthCase(ChoiceResult choice, List<Pair> pairs) {
-        if (!pairs.isEmpty()) {
-            MatchingStatus status = inputView.readMatchingStatus();
-            if (status == MatchingStatus.YES) {
-                service.matching(choice, 1);
-            }
-            if (status == MatchingStatus.NO) {
-                return true;
-            }
+    private Selection getSelection() {
+        outputView.printPairMatchingInformation();
+        outputView.printSelections();
+        return inputView.readSelection();
+    }
+
+
+    private MatchingStatus rematchingProcess(Selection selection) {
+        MatchingStatus status = getMatchingStatus();
+        if (status == MatchingStatus.YES) {
+            pairMatchingService.matching(selection, 1);
         }
-        return false;
+        return status;
+    }
+
+    private MatchingStatus getMatchingStatus() {
+        outputView.printRematch();
+        return inputView.readMatchingStatus();
     }
 
     private void searchProcess() {
-        outputView.printInformation();
-        ChoiceResult choice = inputView.readChoice();
-        outputView.printMatchingResult(service.search(choice));
+        Selection selection = getSelection();
+        outputView.printMatchingResult(pairMatchingService.search(selection));
     }
 
     private void clearProcess() {
-        service.clear();
-        OutputView.printMessage("초기화 되었습니다.");
+        pairMatchingService.clear();
+        outputView.printClear();
     }
 }

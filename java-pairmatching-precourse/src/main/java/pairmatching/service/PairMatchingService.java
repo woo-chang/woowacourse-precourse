@@ -6,51 +6,63 @@ import java.util.List;
 import java.util.stream.Collectors;
 import pairmatching.domain.Crew;
 import pairmatching.domain.Pair;
-import pairmatching.dto.ChoiceResult;
+import pairmatching.dto.Selection;
 import pairmatching.repository.CourseRepository;
 import pairmatching.repository.CrewRepository;
 import pairmatching.repository.NameRepository;
 
 public class PairMatchingService {
 
-    public List<Pair> matching(ChoiceResult choice, int count) {
+    public List<Pair> matching(Selection selection, int count) {
         try {
-            if (count == 3) {
-                throw new IllegalArgumentException("3회 시도까지 매칭되지 않거나 매칭할 수 있는 경우의 수가 존재하지 않습니다.");
-            }
-            List<String> names = Randoms.shuffle(NameRepository.findByCourse(choice.getCourse()));
-            return generatePairs(choice, names);
+            validateCount(count);
+            return generatePairs(shuffleNames(selection), selection);
         } catch (IllegalStateException e) {
-            return matching(choice, count + 1);
+            return matching(selection, count + 1);
         }
     }
 
-    private List<Pair> generatePairs(ChoiceResult choice, List<String> names) {
+    private void validateCount(int count) {
+        if (count == 3) {
+            throw new IllegalArgumentException("3회 시도까지 매칭되지 않거나 매칭할 수 있는 경우의 수가 존재하지 않습니다.");
+        }
+    }
+
+    private List<String> shuffleNames(Selection selection) {
+        return Randoms.shuffle(NameRepository.findByCourse(selection.getCourse()));
+    }
+
+    private List<Pair> generatePairs(List<String> names, Selection selection) {
         List<Pair> pairs = new ArrayList<>();
+
         for (int i = 0; i < names.size() - 1; i += 2) {
             Pair pair = new Pair(new ArrayList<>(List.of(names.get(i), names.get(i + 1))));
             if (names.size() - i == 3) {
                 pair.getNames().add(names.get(names.size() - 1));
             }
-            validate(choice, pair);
+            validatePair(selection, pair);
             pairs.add(pair);
         }
-        storePairs(choice, pairs);
+
+        storePairs(selection, pairs);
         return pairs;
     }
 
-    private void validate(ChoiceResult choice, Pair pair) {
-        List<String> names = pair.getNames();
-        List<Crew> crews = names.stream()
-                .map(name -> new Crew(choice.getCourse(), name))
-                .collect(Collectors.toList());
+    private void validatePair(Selection selection, Pair pair) {
+        List<Crew> crews = generateCrews(selection, pair);
         for (int i = 0; i < crews.size() - 1; i++) {
             for (int j = i + 1; j < crews.size(); j++) {
-                List<Crew> matchingCrews = CrewRepository.findByCrewAndLevel(crews.get(i),
-                        choice.getLevel());
+                List<Crew> matchingCrews = CrewRepository.findByCrewAndLevel(
+                        crews.get(i), selection.getLevel());
                 validateMatchingCrew(matchingCrews, crews.get(j));
             }
         }
+    }
+
+    private static List<Crew> generateCrews(Selection selection, Pair pair) {
+        return pair.getNames().stream()
+                .map(name -> new Crew(selection.getCourse(), name))
+                .collect(Collectors.toList());
     }
 
     private void validateMatchingCrew(List<Crew> matchingCrews, Crew crew) {
@@ -59,14 +71,14 @@ public class PairMatchingService {
         }
     }
 
-    private void storePairs(ChoiceResult choice, List<Pair> pairs) {
-        CourseRepository.addCourses(choice.getCourse(), choice.getMission(), pairs);
+    private void storePairs(Selection selection, List<Pair> pairs) {
+        CourseRepository.addCourses(selection.getCourse(), selection.getMission(), pairs);
         for (Pair pair : pairs) {
-            storeCrew(pair.getNames(), choice);
+            storeCrew(pair.getNames(), selection);
         }
     }
 
-    private void storeCrew(List<String> names, ChoiceResult choice) {
+    private void storeCrew(List<String> names, Selection choice) {
         for (int i = 0; i < names.size() - 1; i++) {
             for (int j = i + 1; j < names.size(); j++) {
                 Crew crew1 = new Crew(choice.getCourse(), names.get(i));
@@ -76,8 +88,9 @@ public class PairMatchingService {
         }
     }
 
-    public List<Pair> search(ChoiceResult choice) {
-        return CourseRepository.findByCourseAndMission(choice.getCourse(), choice.getMission());
+    public List<Pair> search(Selection selection) {
+        return CourseRepository.findByCourseAndMission(
+                selection.getCourse(), selection.getMission());
     }
 
     public void clear() {
