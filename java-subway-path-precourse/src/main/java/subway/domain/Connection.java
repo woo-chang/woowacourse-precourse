@@ -12,4 +12,16 @@ public class Connection {
         this.time = time;
     }
 
+    public Station getStation() {
+        return station;
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public int getTime() {
+        return time;
+    }
+
 }
