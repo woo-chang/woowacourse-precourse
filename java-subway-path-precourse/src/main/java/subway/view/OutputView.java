@@ -12,6 +12,8 @@ public class OutputView {
     private static final String SEARCH_MENU = "## 경로 기준";
     private static final String SEARCH_RESULT = "## 조회 결과";
     private static final String SEARCH_MESSAGE = "[INFO] %s";
+    private static final String DISTANCE = "총 거리: %dkm";
+    private static final String TIME = "총 소요 시간: %d분";
     private static final String LINE = "---";
 
     public void printMainMenu() {
@@ -32,9 +34,9 @@ public class OutputView {
         System.out.println(SEARCH_RESULT);
         System.out.println(String.format(SEARCH_MESSAGE, LINE));
         System.out.println(
-                String.format(SEARCH_MESSAGE, "총 거리: " + searchResult.getDistance()) + "km");
+                String.format(SEARCH_MESSAGE, String.format(DISTANCE, searchResult.getDistance())));
         System.out.println(
-                String.format(SEARCH_MESSAGE, "총 소요 시간: " + searchResult.getTime()) + "분");
+                String.format(SEARCH_MESSAGE, String.format(TIME, searchResult.getTime())));
         System.out.println(String.format(SEARCH_MESSAGE, LINE));
         printStations(searchResult.getStations());
     }
