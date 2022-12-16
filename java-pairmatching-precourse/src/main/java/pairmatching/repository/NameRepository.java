@@ -13,4 +13,8 @@ public class NameRepository {
     public static void addNames(Course course, String name) {
         names.computeIfAbsent(course, n -> new ArrayList<>()).add(name);
     }
+
+    public static List<String> findByCourse(Course course) {
+        return names.get(course);
+    }
 }
