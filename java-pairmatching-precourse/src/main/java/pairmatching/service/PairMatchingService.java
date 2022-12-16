@@ -27,7 +27,7 @@ public class PairMatchingService {
 
     private List<Pair> generatePairs(ChoiceResult choice, List<String> names) {
         List<Pair> pairs = new ArrayList<>();
-        for (int i = 0; i < names.size(); i += 2) {
+        for (int i = 0; i < names.size() - 1; i += 2) {
             Pair pair = new Pair(new ArrayList<>(List.of(names.get(i), names.get(i + 1))));
             if (names.size() - i == 3) {
                 pair.getNames().add(names.get(names.size() - 1));

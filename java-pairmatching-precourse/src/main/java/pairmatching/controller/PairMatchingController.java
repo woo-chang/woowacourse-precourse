@@ -1,6 +1,7 @@
 package pairmatching.controller;
 
 import java.util.List;
+import pairmatching.config.PairMatchingConfig;
 import pairmatching.domain.Function;
 import pairmatching.domain.MatchingStatus;
 import pairmatching.domain.Pair;
@@ -17,6 +18,7 @@ public class PairMatchingController {
     private final PairMatchingService service = new PairMatchingService();
 
     public void process() {
+        PairMatchingConfig.configure();
         Function function;
         do {
             function = inputView.readFunction();
@@ -45,14 +47,32 @@ public class PairMatchingController {
         List<Pair> pairs = CourseRepository.findByCourseAndMission(choice.getCourse(),
                 choice.getMission());
 
+        if (notEmpthCase(choice, pairs)) {
+            return;
+        }
+
+        emptyCase(choice, pairs);
+
+        outputView.printMatchingResult(service.search(choice));
+    }
+
+    private void emptyCase(ChoiceResult choice, List<Pair> pairs) {
+        if (pairs.isEmpty()) {
+            service.matching(choice, 1);
+        }
+    }
+
+    private boolean notEmpthCase(ChoiceResult choice, List<Pair> pairs) {
         if (!pairs.isEmpty()) {
             MatchingStatus status = inputView.readMatchingStatus();
             if (status == MatchingStatus.YES) {
                 service.matching(choice, 1);
             }
+            if (status == MatchingStatus.NO) {
+                return true;
+            }
         }
-
-        outputView.printMatchingResult(service.search(choice));
+        return false;
     }
 
     private void searchProcess() {
