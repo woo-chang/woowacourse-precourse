@@ -13,6 +13,10 @@ public enum MatchingStatus {
 
     private final String value;
 
+    public String getValue() {
+        return value;
+    }
+
     public static MatchingStatus from(String value) {
         return Arrays.stream(MatchingStatus.values())
                 .filter(matchingStatus -> matchingStatus.value.equals(value))
