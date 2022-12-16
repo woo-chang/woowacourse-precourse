@@ -13,4 +13,10 @@ public class MissionRepository {
     public static void addMission(Level level, String mission) {
         missions.computeIfAbsent(level, m -> new ArrayList<>()).add(mission);
     }
+
+    public static List<String> findByLevel(Level level) {
+        return missions.get(level);
+    }
+
+
 }
